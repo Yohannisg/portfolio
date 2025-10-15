@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - UNT Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d1117;
+            color: #58a6ff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #010409;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            background: #161b22;
+            padding: 10px 15px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close { background: #ff5f56; }
+        .terminal-button.minimize { background: #ffbd2e; }
+        .terminal-button.maximize { background: #27c93f; }
+
+        .terminal-body {
+            padding: 30px;
+            min-height: 80vh;
+        }
+
+        .prompt {
+            color: #7ee787;
+        }
+
+        .command {
+            color: #58a6ff;
+        }
+
+        .output {
+            color: #c9d1d9;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .line {
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        h1 {
+            color: #7ee787;
+            font-size: 28px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #58a6ff;
+            font-size: 20px;
+            margin: 30px 0 15px 0;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .item {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .item:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .item-title {
+            color: #7ee787;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .item-subtitle {
+            color: #58a6ff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .item-description {
+            color: #8b949e;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .nav {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            color: #58a6ff;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover {
+            background: #58a6ff;
+            color: #010409;
+            border-color: #58a6ff;
+        }
+
+        .cursor-blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .typing {
+            border-right: 2px solid #7ee787;
+            padding-right: 5px;
+            animation: blink 0.7s infinite;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill {
+            background: #1f6feb;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .skill:hover {
+            background: #58a6ff;
+            transform: scale(1.1);
+        }
+
+        .comment {
+            color: #8b949e;
+            font-style: italic;
+        }
+
+        .string {
+            color: #a5d6ff;
+        }
+
+        .function {
+            color: #d2a8ff;
+        }
+
+        a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .terminal-body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-button close"></div>
+            <div class="terminal-button minimize"></div>
+            <div class="terminal-button maximize"></div>
+            <span style="margin-left: 10px; color: #8b949e; font-size: 12px;">portfolio.sh</span>
+        </div>
+        <div class="terminal-body" id="terminal">
+            <div class="line" style="animation-delay: 0s;">
+                <span class="prompt">user@unt:~$</span> <span class="command">./portfolio.sh</span>
+            </div>
+            <div class="line" style="animation-delay: 0.2s;">
+                <span class="output comment">// Initializing portfolio...</span>
+            </div>
+            <div class="line" style="animation-delay: 0.4s;">
+                <h1>Yohannis Girma</h1>
+            </div>
+
+            <div class="section line" style="animation-delay: 0.6s;">
+                <div class="nav">
+                    <a class="nav-item" href="#about">about()</a>
+                    <a class="nav-item" href="#experience">experience()</a>
+                    <a class="nav-item" href="#projects">projects()</a>
+                    <a class="nav-item" href="#contact">contact()</a>
+                </div>
+            </div>
+
+            <div id="about" class="section line" style="animation-delay: 0.8s;">
+                <h2><span class="function">const</span> about = () => {</h2>
+                <div class="output">
+                    <span class="comment">// About Me</span><br>
+                    <span class="string">"I am an undergraduate student at the University of North Texas who enjoys turning ideas into working products. My interests span intelligent systems, data platforms, and easy to use web apps. I focus on building clear end to end solutions, measuring what matters, and improving fast through short iterations. I like collaborating with people from different backgrounds and I document my work so others can build on it."</span>
+                </div>
+                
+                <div class="skills">
+                    <span class="skill">Machine Learning</span>
+                    <span class="skill">Backend Development</span>
+                    <span class="skill">Data Platforms</span>
+                    <span class="skill">Full Stack</span>
+                    <span class="skill">AI/LLM Systems</span>
+                    <span class="skill">System Architecture</span>
+                    <span class="skill">Technical Documentation</span>
+                </div>
+                <div class="output">}</div>
+            </div>
+
+            <div id="experience" class="section line" style="animation-delay: 1s;">
+                <h2><span class="function">const</span> experience = [</h2>
+                
+                <div class="item">
+                    <div class="item-title">Vivint</div>
+                    <div class="item-subtitle">Software Engineering Intern</div>
+                    <div class="item-description">I developed backend microservices in Python and Node.js for Vivint's smart home automation platform. I built React and AWS CloudWatch dashboards to monitor IoT device performance and system reliability. I automated Docker and GitHub Actions pipelines to streamline deployment and testing workflows.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Outlier AI</div>
+                    <div class="item-subtitle">AI Trainer</div>
+                    <div class="item-description">I guided large language models toward clear and reliable answers in coding and reasoning tasks. I wrote step by step instructions, created review criteria, and compared many possible responses to select and explain the strongest one. I looked for gaps in clarity and safety and suggested wording that made the model more helpful. I worked independently and with peers, always leaving clean notes so the next person could pick up quickly.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">UNT Large Scale Systems Lab</div>
+                    <div class="item-subtitle">ML Researcher</div>
+                    <div class="item-description">I explored practical ways to detect unusual behavior in data using modern sequence models. I set up experiments, prepared datasets, and evaluated results with simple and honest metrics. I kept my code organized and reproducible and I shared short write ups so teammates could understand what worked, what did not, and what to try next. The focus was on methods that are dependable and simple to maintain.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">Collective</div>
+                    <div class="item-subtitle">Software Engineering Intern</div>
+                    <div class="item-description">I contributed to backend services and internal tools that supported data processing and model serving. I profiled slow paths, removed bottlenecks, and added smaller features that improved day to day workflows. I wrote tests where they added the most value and kept configuration straightforward. I partnered with engineers and product teammates to plan small milestones that shipped on time.</div>
+                </div>
+
+                <div class="output">];</div>
+            </div>
+
+            <div id="projects" class="section line" style="animation-delay: 1.2s;">
+                <h2><span class="function">const</span> projects = [</h2>
+                
+                <div class="item">
+                    <div class="item-title">CodeCriticAI</div>
+                    <div class="item-description">CodeCriticAI is a real time code review tool that gives instant suggestions inside an editor view and supports live collaboration. The goal is to reduce long review cycles and help people learn by seeing suggestions in context. The system accepts a code snippet and surrounds it with guardrails to protect private data, then asks a review engine for suggestions that focus on clarity, complexity, and logic. The interface shows inline comments, quick diffs, and a simple history so you can accept a change or roll it back with confidence. I designed the data flow for fast round trips and I added presence and cursor sync so teammates can review together. In pilots, teams reported shorter feedback loops and fewer follow up bugs.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">MusicRecommender</div>
+                    <div class="item-description">MusicRecommender creates personal playlists by learning from listening behavior and content features. The aim is to reduce decision fatigue and help users discover songs that feel new yet familiar. The system blends patterns from plays and skips with track attributes and artist relations, then produces a ranked list that updates as you listen. A small service caches results so the app feels immediate, while an explanations pane tells you why a song appears and how to tune your taste. Early users spent more time listening and skipped fewer tracks, which suggests the blend of behavior and content works well.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">StreamPulse</div>
+                    <div class="item-description">StreamPulse is a monitoring and analytics dashboard for continuous event data. It is built to give operators a live picture of system health and to surface unusual patterns quickly. Data flows in through stable topic design and is aggregated in short windows that update the charts in near real time. The dashboard presents a clear set of metrics, an alert banner that explains what crossed a threshold, and a simple rule editor that lets you adjust sensitivity without touching code. During demos, StreamPulse helped detect spikes and drops sooner and made it easier to explain what happened to non technical stakeholders.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">TalentScanAI</div>
+                    <div class="item-description">TalentScanAI helps hiring teams compare resumes with job descriptions and explains the match in plain language. The platform reads a role description, maps it to skills and experience, and scores each candidate with a short rationale. Recruiters can filter by location, skills, and past roles, then open a candidate timeline to record notes and decisions. The goal is to make screening faster and more consistent while giving every decision a traceable reason. In user tests, reviewers moved through a stack of applicants more quickly and produced shortlists that matched the original requirements more closely.</div>
+                </div>
+
+                <div class="item">
+                    <div class="item-title">StudyMateAI</div>
+                    <div class="item-description">StudyMateAI turns notes into practice materials and schedules review at the right time. A student uploads class notes, and the app generates flashcards, short quizzes, and summaries that focus on the key ideas. A simple schedule reminds the student to review just before forgetting, and quick feedback highlights what to revisit. The design favors a quiet interface with clear actions so study sessions start fast and stay focused. Students who tried it reported better recall and shorter prep time.</div>
+                </div>
+
+                <div class="output">];</div>
+            </div>
+
+            <div id="contact" class="section line" style="animation-delay: 1.4s;">
+                <h2><span class="function">const</span> contact = () => {</h2>
+                <div class="output">
+                    <span class="comment">// Get in touch</span><br>
+                    <span class="function">return</span> {<br>
+                    &nbsp;&nbsp;<span class="string">linkedin</span>: <a href="https://www.linkedin.com/in/yohannisg/" target="_blank">"linkedin.com/in/yohannisg"</a>,<br>
+                    &nbsp;&nbsp;<span class="string">email</span>: <a href="mailto:yohannisgirma1@gmail.com">"yohannisgirma1@gmail.com"</a>,<br>
+                    &nbsp;&nbsp;<span class="string">phone</span>: <a href="tel:7372163361">"(737) 216-3361"</a><br>
+                    };
+                </div>
+                <div class="output">}</div>
+            </div>
+
+            <div class="line" style="animation-delay: 1.6s;">
+                <span class="prompt">user@unt:~$</span> <span class="typing"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Add hover sound effect (visual feedback)
+        document.querySelectorAll('.item, .nav-item, .skill').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.2s ease';
+            });
+        });
+
+        // Typing effect for cursor
+        const typingElement = document.querySelector('.typing');
+        const commands = ['ls -la', 'cat README.md', 'git status', 'npm start'];
+        let commandIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentCommand = commands[commandIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentCommand.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentCommand.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentCommand.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                commandIndex = (commandIndex + 1) % commands.length;
+            }
+
+            const speed = isDeleting ? 50 : 100;
+            setTimeout(type, speed);
+        }
+
+        setTimeout(type, 2000);
+    </script>
+</body>
+</html>
